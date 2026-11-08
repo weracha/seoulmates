@@ -28,47 +28,104 @@
 </script>
 
   <style>
-    /* Seoulmates: contained preview and balanced purchase sections */
+    /* Disable scroll-triggered reveal effects; keep content immediately visible. */
+    .reveal, .js-hide {
+      opacity: 1 !important;
+      transform: none !important;
+      transition: none !important;
+    }
+
+    /* The preview is part of the normal page flow, never an inner scrolling box. */
     .preview-box {
-      max-height: 380px;
-      overflow-y: auto;
-      overflow-x: hidden;
-      overscroll-behavior: contain;
-      -webkit-overflow-scrolling: touch;
       position: relative;
-      scrollbar-width: thin;
-      scrollbar-color: #CDAA5D #112240;
+      max-width: 540px;
+      margin: 0 auto;
+      padding: 18px 0 0;
+      border: 0;
+      border-radius: 0;
+      background: transparent;
+      box-shadow: none;
+      overflow: visible;
     }
-    .preview-box::-webkit-scrollbar { width: 7px; }
-    .preview-box::-webkit-scrollbar-thumb {
-      background: #CDAA5D;
-      border-radius: 10px;
+    .preview-story {
+      white-space: pre-line;
+      max-height: 245px;
+      overflow: hidden;
+      position: relative;
+      margin: 0;
     }
-    .preview-box::-webkit-scrollbar-track {
-      background: #112240;
-      border-radius: 10px;
+    .preview-box.is-expanded .preview-story {
+      max-height: none;
+      overflow: visible;
     }
-    .preview-story { white-space: pre-line; }
-    .purchase-price {
-      font-size: 1rem !important;
+    .preview-expand[hidden] { display: none !important; }
+    .preview-box.has-preview:not(.is-expanded) .preview-story {
+      -webkit-mask-image: linear-gradient(to bottom, #000 72%, transparent 100%);
+      mask-image: linear-gradient(to bottom, #000 72%, transparent 100%);
     }
-    /* Keep the cover and reader reviews visually close together. */
-    .cover-section {
-      padding-bottom: 8px !important;
+    .preview-clear {
+      position: static;
+      display: block;
+      margin: 0 0 12px auto;
     }
-    .reviews {
-      padding-top: 20px !important;
-    }
-    .purchase-heading {
-      margin: 0 0 12px;
+    .preview-expand {
+      display: block;
+      margin: 14px auto 0;
+      padding: 9px 18px;
+      border: 1px solid rgba(233,196,106,.45);
+      border-radius: 30px;
+      background: transparent;
       color: #E9C46A;
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(1.65rem, 5vw, 2.15rem);
-      line-height: 1.15;
-      text-align: center;
+      font: 16px 'Source Serif 4', serif;
+      cursor: pointer;
     }
+    .preview-end-cta {
+      display: none;
+      text-align: center;
+      padding: 22px 12px 10px;
+    }
+    .preview-end-cta.is-visible { display: block; }
+
+    .compact-cta {
+      display: inline-block;
+      max-width: 100%;
+      padding: 14px 24px;
+      font-size: 17px;
+      line-height: 1.35;
+      letter-spacing: .015em;
+      white-space: normal;
+    }
+    .purchase-block { text-align: center; }
+    .hook-line {
+      max-width: 620px;
+      margin: 8px auto 24px;
+      padding: 0 28px;
+      text-align: center;
+      color: #F8F3EA;
+      font: 600 clamp(19px, 4.2vw, 24px)/1.35 'Cormorant Garamond', serif;
+    }
+    .gold-highlight { color: #E9C46A; }
+    .cover-description {
+      max-width: 620px;
+      margin: 0 auto;
+      padding: 22px 28px 8px;
+      color: rgba(248,243,234,.88);
+      font-size: 17px;
+      line-height: 1.8;
+    }
+    .cover-description p { margin: 0 0 18px; }
+    .cover-description strong { color: inherit; font-weight: 700; }
+    .description-cta {
+      text-align: center;
+      padding: 10px 20px 28px;
+    }
+    .compact-cta { font-size: 17px; padding: 14px 24px; letter-spacing: .01em; }
+    .cover-section { padding-bottom: 8px !important; }
+    .reviews { padding-top: 20px !important; }
     @media (max-width: 600px) {
-      .preview-box { max-height: 320px; }
+      .cover-description { font-size: 16px; padding-left: 24px; padding-right: 24px; }
+      .compact-cta { font-size: 16px; padding: 13px 20px; }
+    }
   </style>
 
 </head>
@@ -109,6 +166,8 @@
       <div class="quote-name">— Stephanie</div>
     </section>
 
+    <h2 class="hook-line">The only k-drama where your <strong class="gold-highlight">BIAS</strong> is purely in love with you... and calls you by your <strong class="gold-highlight">REAL</strong> name!</h2>
+
     <section class="wrap preview-section">
       <h1 class="section-title reveal">See Your Fantasy Come to Life</h1>
 
@@ -121,26 +180,42 @@
           <label for="biasName">Enter your bias's name</label>
           <input id="biasName" name="biasName" type="text" placeholder="Your bias's name" maxlength="40" required>
         </div>
-        <button class="cta-btn preview-submit" id="previewEnter" type="button">Enter</button>
+        <button class="cta-btn preview-submit" id="previewEnter" type="button">Preview</button>
       </form>
 
-      <div class="preview-box reveal" aria-live="polite">
-        <button class="preview-clear" id="previewClear" type="button">Clear</button>
-        <p class="preview-placeholder" id="previewPlaceholder">Press Enter to Preview</p>
+      <div class="preview-box reveal" id="previewBox" aria-live="polite">
+        <button class="preview-clear" id="previewClear" type="button" hidden>Clear</button>
+        <p class="preview-placeholder" id="previewPlaceholder">Enter your names above, then tap Preview to see your personalised story excerpt.</p>
         <p class="preview-story" id="previewStory" hidden></p>
       </div>
+      <button class="preview-expand" id="previewExpand" type="button" hidden>Read the full preview</button>
       <p class="preview-error" id="previewError" role="alert"></p>
-    </section>
-
-    <section class="purchase-block reveal">
-      <h2 class="purchase-heading">Continue Your Love Story</h2>
-      <a href="https://payhip.com/buy?s=1&cart_links%5B%5D=wL1KY&qty%5BwL1KY%5D=1" class="cta-btn">Read Full Story</a>
-      <div class="purchase-price">$5.99</div>
+      <div class="preview-end-cta" id="previewEndCta">
+        <a href="https://payhip.com/buy?s=1&cart_links%5B%5D=wL1KY&qty%5BwL1KY%5D=1" class="cta-btn compact-cta" id="personalizedBuyButton">Unlock All 190+ Pages of <span id="femaleNameCta">Your</span> and <span id="maleNameCta">His</span> Story • $5.99</a>
+      </div>
     </section>
 
     <section class="cover-section reveal" aria-label="Seoulmates book cover">
       <img class="cover-image" src="images/seoulmates-cover.png" alt="Seoulmates: The K-Drama Written For You — illustrated cover showing you and your bias in Seoul at night">
     </section>
+
+    <section class="cover-description" aria-label="About the story">
+      <p>Imagine living right next door to your <strong>bias</strong>. Not just seeing him on your screen, but waking up to his knocks every morning, hearing him call you “sunshine,” having him show up with your favourite food just because he thought you might be hungry, and being the one person who can make even the most ridiculously charming man turn shy.</p>
+
+      <p>He's your childhood best friend, your favourite headache, and the person who's been part of your life for as long as you can remember. He knows your habits, remembers the tiniest details about you, notices when your smile isn't quite real, and somehow always knows when you need him.</p>
+
+      <p>To everyone else, he's handsome, confident, effortlessly charming and impossible not to fall for. But with you? He's different. He's the boy who would stay awake all night when you're sick, who would put your happiness before his own, who remembers promises you made years ago, and who looks at you as… in a world full of people, <strong>you're the only one he ever wants to find</strong>. And perhaps the most heartbreaking part is that you never realised any of that.</p>
+
+      <p>But then, just when you finally begin to understand how much this boy means to you, everything starts falling apart. Misunderstandings turn into heartbreak, the distance between you grows unbearable, and before either of you can fix what's broken, you walk away from the friendship…<strong>from him</strong>… leaving him behind with all the feelings he never got to tell you.</p>
+
+      <p>And him? He's trying so hard to pretend he's okay. The same boy who would run across the city just to see you for five minutes, who could never go a day without bothering you, who always had that stupid smile whenever you opened your door. Now he's standing in the rain, soaked to the skin, his eyes red, his hands trembling, fear in his eyes, and the thought that this might really be the last time he ever gets to see you…</p>
+
+      <p><strong>What do you do when the boy who has loved you his entire life is now standing soaked in tears, knowing that tomorrow he'll wake up in a world where he can never call your name again?</strong></p>
+    </section>
+
+    <div class="description-cta">
+      <a href="https://payhip.com/buy?s=1&cart_links%5B%5D=wL1KY&qty%5BwL1KY%5D=1" class="cta-btn compact-cta">Find Out What Happens? • $5.99</a>
+    </div>
 
     <section class="reviews">
       <div class="wrap">
@@ -174,8 +249,7 @@
     </section>
 
     <section class="purchase-block reveal">
-      <a href="https://payhip.com/buy?s=1&cart_links%5B%5D=wL1KY&qty%5BwL1KY%5D=1" class="cta-btn">Experience It Now</a>
-      <div class="purchase-price">$5.99</div>
+      <a href="https://payhip.com/buy?s=1&cart_links%5B%5D=wL1KY&qty%5BwL1KY%5D=1" class="cta-btn compact-cta">Experience It Now • $5.99</a>
     </section>
 
     <p class="contact-line reveal">Questions? <a href="mailto:hello.kdramau@gmail.com">hello.kdramau@gmail.com</a></p>
