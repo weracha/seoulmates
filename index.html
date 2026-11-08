@@ -51,6 +51,13 @@
       box-shadow: none;
       overflow: visible;
     }
+    @keyframes previewFadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    .preview-story.preview-fade-in {
+      animation: previewFadeIn 380ms ease-out both;
+    }
     .preview-story {
       overflow-anchor: none;
       white-space: pre-line;
