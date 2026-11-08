@@ -12,6 +12,16 @@ document.addEventListener("DOMContentLoaded", () => {
   const femaleCtaName = document.getElementById("femaleNameCta");
   const maleCtaName = document.getElementById("maleNameCta");
 
+  // This stays true after the first successful Preview click, including after Clear.
+  let purchaseButtonUnlocked = false;
+
+  function updatePurchaseNames() {
+    const firstName = firstNameInput.value.trim();
+    const biasName = biasNameInput.value.trim();
+    if (firstName) femaleCtaName.textContent = firstName;
+    if (biasName) maleCtaName.textContent = biasName;
+  }
+
   function showPreview() {
     const firstName = firstNameInput.value.trim();
     const biasName = biasNameInput.value.trim();
@@ -24,9 +34,11 @@ document.addEventListener("DOMContentLoaded", () => {
       errorOutput.textContent = "The preview could not load. Please refresh the page and try again.";
       return;
     }
+
     const personalizedStory = window.SEOULMATES_PREVIEW_STORY
       .replaceAll("{{FEMALE_NAME}}", firstName)
       .replaceAll("{{MALE_NAME}}", biasName);
+
     placeholder.hidden = true;
     storyOutput.hidden = false;
     storyOutput.textContent = personalizedStory;
@@ -35,34 +47,28 @@ document.addEventListener("DOMContentLoaded", () => {
     expandButton.hidden = false;
     expandButton.textContent = "Read the full preview";
     expandButton.setAttribute("aria-expanded", "false");
-    // Once a visitor has generated a preview, keep the purchase button visible,
-    // even if they collapse or clear the preview later.
-    endCta.classList.add("is-visible");
+
+    purchaseButtonUnlocked = true;
+    endCta.hidden = false;
     clearButton.hidden = false;
-    femaleCtaName.textContent = firstName;
-    maleCtaName.textContent = biasName;
+    updatePurchaseNames();
   }
 
   function togglePreview() {
-    // Keep the preview's top edge in the same place on screen when collapsing.
-    const previewTop = previewBox.getBoundingClientRect().top;
-    const expanded = previewBox.classList.toggle("is-expanded");
-    expandButton.textContent = expanded ? "Show less" : "Read the full preview";
-    expandButton.hidden = false;
-    expandButton.setAttribute("aria-expanded", String(expanded));
+    const wasExpanded = previewBox.classList.contains("is-expanded");
+    const previousScrollY = window.scrollY;
+    const previousBoxTop = previewBox.getBoundingClientRect().top;
 
-    // The buy button remains visible after the first successful Preview click.
-    endCta.classList.add("is-visible");
+    previewBox.classList.toggle("is-expanded", !wasExpanded);
+    expandButton.textContent = wasExpanded ? "Read the full preview" : "Show less";
+    expandButton.setAttribute("aria-expanded", String(!wasExpanded));
 
-    if (!expanded) {
+    // Keep the preview's top edge at the same viewport position when collapsing.
+    if (wasExpanded) {
       requestAnimationFrame(() => {
-        const newTop = previewBox.getBoundingClientRect().top;
-        const delta = newTop - previewTop;
-        const root = document.documentElement;
-        const oldBehavior = root.style.scrollBehavior;
-        root.style.scrollBehavior = "auto";
-        window.scrollBy(0, delta);
-        requestAnimationFrame(() => { root.style.scrollBehavior = oldBehavior; });
+        const currentBoxTop = previewBox.getBoundingClientRect().top;
+        const correctedScrollY = previousScrollY + (currentBoxTop - previousBoxTop);
+        window.scrollTo(0, Math.max(0, correctedScrollY));
       });
     }
   }
@@ -76,24 +82,17 @@ document.addEventListener("DOMContentLoaded", () => {
     errorOutput.textContent = "";
     clearButton.hidden = true;
     expandButton.hidden = true;
-    // Intentionally leave the purchase button visible after it has appeared.
-    endCta.classList.add("is-visible");
     previewBox.classList.remove("has-preview", "is-expanded");
+    // Keep the unlocked purchase CTA visible after Clear, as requested.
+    if (purchaseButtonUnlocked) endCta.hidden = false;
     firstNameInput.focus();
   }
 
   previewButton.addEventListener("click", showPreview);
   expandButton.addEventListener("click", togglePreview);
   clearButton.addEventListener("click", clearPreview);
-  // Update the personalised button labels live as either name is edited.
-  firstNameInput.addEventListener("input", () => {
-    const value = firstNameInput.value.trim();
-    if (value) femaleCtaName.textContent = value;
-  });
-  biasNameInput.addEventListener("input", () => {
-    const value = biasNameInput.value.trim();
-    if (value) maleCtaName.textContent = value;
-  });
+  firstNameInput.addEventListener("input", updatePurchaseNames);
+  biasNameInput.addEventListener("input", updatePurchaseNames);
 
   [firstNameInput, biasNameInput].forEach(input => {
     input.addEventListener("keydown", event => {
