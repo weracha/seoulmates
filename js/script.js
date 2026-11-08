@@ -42,6 +42,10 @@ document.addEventListener("DOMContentLoaded", () => {
     placeholder.hidden = true;
     storyOutput.hidden = false;
     storyOutput.textContent = personalizedStory;
+    // Restart the fade on every successful Preview click so name changes are visible.
+    storyOutput.classList.remove("preview-fade-in");
+    void storyOutput.offsetWidth;
+    storyOutput.classList.add("preview-fade-in");
     previewBox.classList.add("has-preview");
     previewBox.classList.remove("is-expanded");
     expandButton.hidden = false;
@@ -57,25 +61,18 @@ document.addEventListener("DOMContentLoaded", () => {
   function togglePreview() {
     const wasExpanded = previewBox.classList.contains("is-expanded");
 
-    // Remember where the preview starts on the screen before changing its height.
-    const previewTopOnScreen = previewBox.getBoundingClientRect().top;
-
     previewBox.classList.toggle("is-expanded", !wasExpanded);
     expandButton.textContent = wasExpanded ? "Read the full preview" : "Show less";
     expandButton.setAttribute("aria-expanded", String(!wasExpanded));
 
     if (wasExpanded) {
-      // After the collapsed layout has been applied, restore the preview's
-      // original screen position. Use the current scrollY (not a stale value)
-      // so browser scroll adjustments cannot compound into a jump.
+      // After collapsing, bring the viewport back to the preview itself.
+      // This makes the screen travel upward with the collapsing content,
+      // instead of leaving the visitor down by the purchase CTA.
       requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          const newPreviewTop = previewBox.getBoundingClientRect().top;
-          const adjustment = newPreviewTop - previewTopOnScreen;
-          if (Math.abs(adjustment) > 1) {
-            window.scrollTo(0, Math.max(0, window.scrollY + adjustment));
-          }
-        });
+        const previewTop = previewBox.getBoundingClientRect().top + window.scrollY;
+        const targetTop = Math.max(0, previewTop - 18);
+        window.scrollTo({ top: targetTop, behavior: "smooth" });
       });
     }
   }
