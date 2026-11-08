@@ -41,7 +41,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
     placeholder.hidden = true;
     storyOutput.hidden = false;
-    storyOutput.textContent = personalizedStory;
+    // Render the supplied **bold** emphasis safely while escaping visitor names
+    // and all other story text before inserting it into the page.
+    const escapedStory = personalizedStory.replace(/[&<>"']/g, character => ({
+      "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+    })[character]);
+    storyOutput.innerHTML = escapedStory.replace(/\*\*(.+?)\*\*/gs, "<strong>$1</strong>");
     // Restart the fade on every successful Preview click so name changes are visible.
     storyOutput.classList.remove("preview-fade-in");
     void storyOutput.offsetWidth;
@@ -58,23 +63,37 @@ document.addEventListener("DOMContentLoaded", () => {
     updatePurchaseNames();
   }
 
+  function scrollToPreviewStart(behavior = "smooth") {
+    // Anchor the viewport to the beginning of the preview, not to the toggle
+    // button or the purchase CTA. This is the reading position users need.
+    const previewTop = previewBox.getBoundingClientRect().top + window.scrollY;
+    const targetTop = Math.max(0, previewTop - 16);
+    window.scrollTo({ top: targetTop, behavior });
+  }
+
   function togglePreview() {
     const wasExpanded = previewBox.classList.contains("is-expanded");
 
-    previewBox.classList.toggle("is-expanded", !wasExpanded);
-    expandButton.textContent = wasExpanded ? "Read the full preview" : "Show less";
-    expandButton.setAttribute("aria-expanded", String(!wasExpanded));
-
-    if (wasExpanded) {
-      // After collapsing, bring the viewport back to the preview itself.
-      // This makes the screen travel upward with the collapsing content,
-      // instead of leaving the visitor down by the purchase CTA.
-      requestAnimationFrame(() => {
-        const previewTop = previewBox.getBoundingClientRect().top + window.scrollY;
-        const targetTop = Math.max(0, previewTop - 18);
-        window.scrollTo({ top: targetTop, behavior: "smooth" });
-      });
+    if (!wasExpanded) {
+      // The visitor may be at the bottom of the shortened excerpt. Move the
+      // viewport to the preview's beginning as it expands, so new text flows
+      // downward from the visible top instead of appearing above the screen.
+      scrollToPreviewStart("smooth");
+      previewBox.classList.add("is-expanded");
+      expandButton.textContent = "Show less";
+      expandButton.setAttribute("aria-expanded", "true");
+      return;
     }
+
+    // Collapse first, then move the viewport up to the preview's beginning.
+    // This deliberately follows the shrinking content rather than preserving
+    // the old bottom-of-preview screen position near the purchase CTA.
+    previewBox.classList.remove("is-expanded");
+    expandButton.textContent = "Read the full preview";
+    expandButton.setAttribute("aria-expanded", "false");
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => scrollToPreviewStart("smooth"));
+    });
   }
 
   function clearPreview() {
