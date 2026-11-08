@@ -34,6 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
     previewBox.classList.remove("is-expanded");
     expandButton.hidden = false;
     expandButton.textContent = "Read the full preview";
+    expandButton.setAttribute("aria-expanded", "false");
     endCta.classList.remove("is-visible");
     clearButton.hidden = false;
     femaleCtaName.textContent = firstName;
@@ -44,6 +45,8 @@ document.addEventListener("DOMContentLoaded", () => {
   function togglePreview() {
     const expanded = previewBox.classList.toggle("is-expanded");
     expandButton.textContent = expanded ? "Show less" : "Read the full preview";
+    expandButton.hidden = false;
+    expandButton.setAttribute("aria-expanded", String(expanded));
     if (expanded) {
       endCta.classList.add("is-visible");
     } else {
