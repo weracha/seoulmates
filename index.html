@@ -70,41 +70,55 @@
     }
     .preview-expand {
       display: block;
-      margin: 14px auto 0;
-      padding: 9px 18px;
-      border: 1px solid rgba(233,196,106,.45);
+      position: relative;
+      z-index: 2;
+      margin: 16px auto 0;
+      padding: 13px 25px;
+      min-height: 48px;
+      border: 1px solid rgba(233,196,106,.55);
       border-radius: 30px;
-      background: transparent;
+      background: #102440;
       color: #E9C46A;
-      font: 16px 'Source Serif 4', serif;
+      font: 600 17px 'Source Serif 4', serif;
       cursor: pointer;
     }
     .preview-end-cta {
       display: none;
+      position: relative;
+      z-index: 2;
       text-align: center;
-      padding: 22px 12px 10px;
+      padding: 24px 8px 10px;
     }
     .preview-end-cta.is-visible { display: block; }
 
     .compact-cta {
       display: inline-block;
       max-width: 100%;
-      padding: 14px 24px;
-      font-size: 17px;
-      line-height: 1.35;
+      padding: 17px 30px;
+      font-size: 19px;
+      line-height: 1.4;
       letter-spacing: .015em;
       white-space: normal;
     }
     .purchase-block { text-align: center; }
     .hook-line {
       max-width: 620px;
-      margin: 8px auto 24px;
+      margin: 26px auto 18px;
       padding: 0 28px;
       text-align: center;
       color: #F8F3EA;
       font: 600 clamp(19px, 4.2vw, 24px)/1.35 'Cormorant Garamond', serif;
     }
-    .gold-highlight { color: #E9C46A; }
+    .hook-line strong { color: inherit; font-weight: 700; }
+    .testimonial-card {
+      max-width: 620px;
+      margin: 0 auto 24px;
+      padding: 26px 24px 24px;
+      border: 1px solid rgba(233,196,106,.22);
+      border-radius: 22px;
+      background: rgba(27,48,77,.78);
+      box-shadow: 0 12px 32px rgba(0,0,0,.14);
+    }
     .cover-description {
       max-width: 620px;
       margin: 0 auto;
@@ -124,7 +138,8 @@
     .reviews { padding-top: 20px !important; }
     @media (max-width: 600px) {
       .cover-description { font-size: 16px; padding-left: 24px; padding-right: 24px; }
-      .compact-cta { font-size: 16px; padding: 13px 20px; }
+      .compact-cta { font-size: 18px; padding: 16px 22px; }
+      .testimonial-card { margin-left: 20px; margin-right: 20px; padding: 23px 18px; }
     }
   </style>
 
@@ -150,8 +165,10 @@
   </div>
 
   <main>
-    <!-- Featured review: retained from your original homepage. -->
-    <section class="featured-quote reveal" aria-label="Featured customer review">
+    <!-- Lead with the hook, then visually separate Stephanie's testimonial in a card. -->
+    <h2 class="hook-line">The only k-drama where your <strong>BIAS</strong> is purely in love with you... and calls you by your <strong>REAL</strong> name!</h2>
+
+    <section class="featured-quote reveal testimonial-card" aria-label="Featured customer review">
       <div class="bokeh b1"></div>
       <div class="bokeh b2"></div>
       <div class="stars" aria-hidden="true">
@@ -166,10 +183,7 @@
       <div class="quote-name">— Stephanie</div>
     </section>
 
-    <h2 class="hook-line">The only k-drama where your <strong class="gold-highlight">BIAS</strong> is purely in love with you... and calls you by your <strong class="gold-highlight">REAL</strong> name!</h2>
-
     <section class="wrap preview-section">
-      <h1 class="section-title reveal">See Your Fantasy Come to Life</h1>
 
       <form class="name-form reveal" id="nameForm">
         <div class="name-field">
@@ -187,12 +201,12 @@
         <button class="preview-clear" id="previewClear" type="button" hidden>Clear</button>
         <p class="preview-placeholder" id="previewPlaceholder">Enter your names above, then tap Preview to see your personalised story excerpt.</p>
         <p class="preview-story" id="previewStory" hidden></p>
+        <button class="preview-expand" id="previewExpand" type="button" hidden>Read the full preview</button>
+        <div class="preview-end-cta" id="previewEndCta">
+          <a href="https://payhip.com/buy?s=1&cart_links%5B%5D=wL1KY&qty%5BwL1KY%5D=1" class="cta-btn compact-cta" id="personalizedBuyButton">Unlock All 190+ Pages of <span id="femaleNameCta">Your</span> and <span id="maleNameCta">His</span> Story • $5.99</a>
+        </div>
       </div>
-      <button class="preview-expand" id="previewExpand" type="button" hidden>Read the full preview</button>
       <p class="preview-error" id="previewError" role="alert"></p>
-      <div class="preview-end-cta" id="previewEndCta">
-        <a href="https://payhip.com/buy?s=1&cart_links%5B%5D=wL1KY&qty%5BwL1KY%5D=1" class="cta-btn compact-cta" id="personalizedBuyButton">Unlock All 190+ Pages of <span id="femaleNameCta">Your</span> and <span id="maleNameCta">His</span> Story • $5.99</a>
-      </div>
     </section>
 
     <section class="cover-section reveal" aria-label="Seoulmates book cover">
