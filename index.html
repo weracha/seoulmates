@@ -36,7 +36,11 @@
     }
 
     /* The preview is part of the normal page flow, never an inner scrolling box. */
+    .featured-quote.testimonial-card {
+      margin-top: 20px;
+    }
     .preview-box {
+      overflow-anchor: none;
       position: relative;
       max-width: 540px;
       margin: 0 auto;
@@ -48,6 +52,7 @@
       overflow: visible;
     }
     .preview-story {
+      overflow-anchor: none;
       white-space: pre-line;
       max-height: 245px;
       overflow: hidden;
@@ -83,13 +88,14 @@
       cursor: pointer;
     }
     .preview-end-cta {
-      display: none;
+      display: block;
       position: relative;
       z-index: 2;
       text-align: center;
       padding: 24px 8px 10px;
+      overflow-anchor: none;
     }
-    .preview-end-cta.is-visible { display: block; }
+    .preview-end-cta[hidden] { display: none !important; }
 
     .compact-cta {
       display: inline-block;
@@ -139,7 +145,7 @@
     @media (max-width: 600px) {
       .cover-description { font-size: 16px; padding-left: 24px; padding-right: 24px; }
       .compact-cta { font-size: 18px; padding: 16px 22px; }
-      .testimonial-card { margin-left: 20px; margin-right: 20px; padding: 23px 18px; }
+      .testimonial-card { margin-left: 20px; margin-right: 20px; margin-top: 20px; padding: 23px 18px; }
     }
   </style>
 
@@ -199,9 +205,9 @@
         <p class="preview-placeholder" id="previewPlaceholder">Enter your names above, then tap Preview to see your personalised story excerpt.</p>
         <p class="preview-story" id="previewStory" hidden></p>
         <button class="preview-expand" id="previewExpand" type="button" hidden>Read the full preview</button>
-        <div class="preview-end-cta" id="previewEndCta">
-          <a href="https://payhip.com/buy?s=1&cart_links%5B%5D=wL1KY&qty%5BwL1KY%5D=1" class="cta-btn compact-cta" id="personalizedBuyButton">Unlock All 190+ Pages of <span id="femaleNameCta">Your</span> and <span id="maleNameCta">His</span> Story • $5.99</a>
-        </div>
+      </div>
+      <div class="preview-end-cta" id="previewEndCta" hidden>
+        <a href="https://payhip.com/buy?s=1&cart_links%5B%5D=wL1KY&qty%5BwL1KY%5D=1" class="cta-btn compact-cta" id="personalizedBuyButton">Unlock All 190+ Pages of <span id="femaleNameCta">Your</span> and <span id="maleNameCta">His</span> Story • $5.99</a>
       </div>
       <p class="preview-error" id="previewError" role="alert"></p>
     </section>
@@ -226,6 +232,7 @@
 
     <div class="description-cta">
       <a href="https://payhip.com/buy?s=1&cart_links%5B%5D=wL1KY&qty%5BwL1KY%5D=1" class="cta-btn compact-cta">Find Out What Happens? • $5.99</a>
+      <p class="hook-line">The only k-drama where your <strong>BIAS</strong> is purely in love with you... and calls you by your <strong>REAL</strong> name!</p>
     </div>
 
     <section class="reviews">
