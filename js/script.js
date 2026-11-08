@@ -56,19 +56,26 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function togglePreview() {
     const wasExpanded = previewBox.classList.contains("is-expanded");
-    const previousScrollY = window.scrollY;
-    const previousBoxTop = previewBox.getBoundingClientRect().top;
+
+    // Remember where the preview starts on the screen before changing its height.
+    const previewTopOnScreen = previewBox.getBoundingClientRect().top;
 
     previewBox.classList.toggle("is-expanded", !wasExpanded);
     expandButton.textContent = wasExpanded ? "Read the full preview" : "Show less";
     expandButton.setAttribute("aria-expanded", String(!wasExpanded));
 
-    // Keep the preview's top edge at the same viewport position when collapsing.
     if (wasExpanded) {
+      // After the collapsed layout has been applied, restore the preview's
+      // original screen position. Use the current scrollY (not a stale value)
+      // so browser scroll adjustments cannot compound into a jump.
       requestAnimationFrame(() => {
-        const currentBoxTop = previewBox.getBoundingClientRect().top;
-        const correctedScrollY = previousScrollY + (currentBoxTop - previousBoxTop);
-        window.scrollTo(0, Math.max(0, correctedScrollY));
+        requestAnimationFrame(() => {
+          const newPreviewTop = previewBox.getBoundingClientRect().top;
+          const adjustment = newPreviewTop - previewTopOnScreen;
+          if (Math.abs(adjustment) > 1) {
+            window.scrollTo(0, Math.max(0, window.scrollY + adjustment));
+          }
+        });
       });
     }
   }
