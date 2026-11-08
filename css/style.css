@@ -1,7 +1,7 @@
 :root{
-    --bg:#0A192F;
-    --bg2:#0A192F;
-    --card:#112240;
+    --bg:#10213A;
+    --bg2:#10213A;
+    --card:#172B49;
     --gold:#E9C46A;
     --gold-muted:#CDAA5D;
     --cream:#F8F3EA;
@@ -513,7 +513,7 @@
   padding:54px 24px 26px;
   border:1px solid var(--border);
   border-radius:18px;
-  background:linear-gradient(145deg,rgba(17,34,64,.96),rgba(10,25,47,.92));
+  background:linear-gradient(145deg,rgba(23,43,73,.96),rgba(16,33,58,.92));
   box-shadow:0 12px 40px -18px rgba(0,0,0,.6);
 }
 .preview-placeholder{
