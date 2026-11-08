@@ -1,46 +1,70 @@
-// Edit the preview story here. Keep the two name placeholders exactly as written.
-window.SEOULMATES_PREVIEW_STORY = `"{{FEMALE_NAME}}", let's go in before the storm gets worse", {{MALE_NAME}} says gently, giving a small nod toward the reception. You nod.
+// Personalised preview story. Keep these placeholders exactly as written.
+window.SEOULMATES_PREVIEW_STORY = `**{{MALE_NAME}}** grabs your hand, pulling you closer as the wind howls around you.
 
-The receptionist looks up as you approach. His gaze drags over both of you.
+“{{FEMALE_NAME}}, I won't let go,” he promises, his voice calm despite the storm. “I promise.”
 
-Your dripping hair. Your wet clothes. Your hands—still locked together. You don’t even notice until {{MALE_NAME}} lets go. He does it gently. No rush. Just quietly pulls his hand back and steps forward. He clears his throat. “Excuse me…”
+And then, the sky breaks.
 
-The receptionist leans forward slightly, one eyebrow arching. “Yes, sir?” {{MALE_NAME}} glances at you once. Quick. Nervous. Then he speaks. “We need a room.”
+Rain comes pouring down, so violently that you can barely see what's ahead. He shields you with his body, his fingers wrapped tightly around yours, and rushes you towards the nearest shelter.
 
-The receptionist’s mouth curls into a slow, knowing smile. “Per hour… or per night?”
+A few minutes later, you're both standing in a hotel lobby, drenched from head to toe. Your clothes cling to your skin, water dripping from your hair and pooling beneath your feet.
 
-The words hang in the air. {{MALE_NAME}} freezes. His lips part slightly, like he’s going to say something, but nothing comes. He lets out a soft, awkward laugh. “Uh…” He scratches the back of his neck, eyes on the counter. “Per night—”
+“Come on,” he says gently, giving a small nod towards the reception.
+
+The receptionist looks up as you approach. His gaze drags over both of you. Your dripping hair. Your wet clothes. Your hands—still locked together.
+
+You don't even notice until {{MALE_NAME}} lets go. He does it gently. No rush. Just quietly pulls his hand back and steps forward.
+
+“We need a room,” he says, clearing his throat.
+
+The receptionist leans forward slightly, one eyebrow arching. “Per hour… or per night?”
+
+The words hang in the air.
+
+{{MALE_NAME}} freezes. His lips part slightly, like he's going to say something, but nothing comes.
 
 “Per hour,” you say.
 
-Calm. Casual. Like it’s obvious. His head turns. Fast. He looks at you like you’ve just slapped him.
+Calm. Casual. Like it's obvious.
 
-“It’s already 2 A.M.,” you add, frowning a little. “We’ll go home early in the morning anyway.” You turn to the receptionist. “No need to waste money for a full night price. Per hour’s fine.” {{MALE_NAME}} doesn’t move. He just stares. His mouth opens, then shuts. The tips of his ears go red.
+His head turns. Fast.
 
-“{{FEMALE_NAME}}…” His voice is quiet. Flustered. “You don’t know what ‘per hour’ means—”
+“{{FEMALE_NAME}}…” His voice is quiet, flustered. “You don't know what ‘per hour’ means in hotels—”
 
-“Eight hours, please. We’ll stay for eight hours.” You cut in again. Straight to the receptionist. {{MALE_NAME}} inhales sharply through his nose. His face is turning red. Fast. From his neck all the way up. “Eight hours should be enough, right?” you ask, turning to him with raised brows. He just looks at you. Completely blank.
+“Eight hours, please. We'll stay for eight hours.”
 
-The receptionist’s smile deepens. It’s not even a smirk anymore. It’s an open grin. {{MALE_NAME}}’s jaw drops slightly. His tongue presses into his cheek like he’s trying not to react. “…Yeah. Eight… eight’s fine,” he mutters. His voice sounds choked. You nod and lean on the counter like it’s a regular Tuesday.
+He inhales sharply through his nose. His face turns red, fast. From his neck all the way up.
 
-In the elevator, you stand close. Partially because the elevator is small, and partially because you just do. {{MALE_NAME}}’s staring at the floor, lips twitching. Like he’s trying not to laugh. He doesn’t look at you.
+“Eight hours should be enough, right?” you ask, turning towards him.
 
-“Are you okay?” you ask, noticing the weird silence.
+He just stares at you. Completely blank.
 
-“Me?” His voice cracks a little. “Yeah. Totally. I’m fine.” He shifts beside you, holding the keycard like it’s something fragile. You tilt your head. “Why are you so red?”
+“...Yeah. Eight… eight's fine,” he mutters.
 
-“I’m not,” he says. Way too fast.
+---
 
-“Seriously, what’s with you?” you ask again, frowning at him.
+By the time you reach the room, the awkward silence between you hasn't gone away. He's still blushing, still avoiding your eyes, and still holding the keycard like it's something fragile.
 
-He finally looks at you. His eyes are soft. But flustered.
+You step inside first. The room is small, warm, and quiet. The storm outside has softened to a steady tapping against the window.
 
-“You really don’t know what ‘per hour’ means in hotels?”
+You drop your bag near the bed and wrap your arms around yourself. Your clothes are still damp, and the cold is beginning to sink in.
 
-“I mean, yeah,” you say.
+“We can't sleep like this,” you murmur.
 
-“Like, you pay per hour. That’s what it means, right?”
+He nods. “I'll check the bathroom.”
 
-His eyes widen. He exhales through his nose—long and slow.
+A little later, you come out freshly changed, a towel draped over your shoulders. He's sitting in the armchair, his back straight, eyes fixed firmly on the curtains.
 
-He shakes his head, a shy smile pulling at his lips.`;
+“Your turn,” you tell him.
+
+He stands immediately and walks past you without a word.
+
+When he finally steps out, his hair is damp, a towel hanging around his neck. He walks towards the bed.
+
+And then—
+
+You look at the bed.
+
+You look at him.
+
+**There’s only one bed.**`;
